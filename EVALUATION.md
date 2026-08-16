@@ -105,21 +105,45 @@ rather than a generic decline:
 |---|---|---|
 | Capital of France | premise | `'france'` absent from the corpus |
 | Cisco BGP route reflectors | premise | `'bgp'`, `'cisco'`, `'ios'` absent |
-| Wi-Fi 6E EIRP limit | premise | `'wi-fi'`, `'ghz'` absent |
+| Wi-Fi 6E EIRP limit | premise | `'wi-fi'` absent |
 | TS 36.331 LTE RRC | unindexed spec | TS 36.331 is not in the corpus |
 | Timer T9999 value | premise | `'t9999'` absent |
-| Blood-type IE in REGISTRATION REQUEST | premise | `'blood'` absent |
 | Python PCAP parser | premise | `'python'` absent |
-| 5GMM quantum handover procedure | **generation layer** | model emitted `INSUFFICIENT_CONTEXT` — but only in 4 of 6 runs |
+| 5GMM quantum handover procedure | **generation layer** | model emitted `INSUFFICIENT_CONTEXT` — in 4 of 6 runs |
+| **Blood-type IE in REGISTRATION REQUEST** | **not caught** | answered from real but irrelevant IE clauses |
 
 The four score-based refusals were not close calls: out-of-domain questions
 reranked at 0.000–0.081 against 0.30+ for genuine ones.
 
-**Why the premise check exists.** Three of those — `T9999`, `blood type`,
-`TS 36.331` — reranked at **0.844–0.999**, higher than several legitimate
-questions. Score thresholds structurally cannot catch them, because retrieval
-returns its best six topically-adjacent clauses no matter what is asked. Only
-checking the question's *premise* against the corpus vocabulary catches them.
+**Why the premise check exists.** `T9999` and `TS 36.331` reranked at
+**0.967–0.999**, higher than several legitimate questions. Score thresholds
+structurally cannot catch them, because retrieval returns its best six
+topically-adjacent clauses no matter what is asked. Only checking the question's
+*premise* catches them.
+
+### A false-positive mode, found after the fact
+
+The premise check originally flagged **any** unknown word of four or more
+letters. On the golden set that measured a zero false-positive rate, and the
+conclusion drawn from it — "ordinary English carries no risk at this vocabulary
+size" — was wrong. The golden set is phrased in domain language, so it could not
+have exposed the failure.
+
+Probing with deliberately jargon-free questions did. Two were refused with the
+reasons *"relies on 'prove'"* and *"relies on 'disagree'"* — because 17M
+characters of formal specification prose contain no conversational verbs.
+Absence from this corpus reports its **register** as much as the question's
+validity.
+
+The rule is now restricted to entity-shaped tokens: carrying a digit or hyphen,
+or capitalised in the question. That covers every genuine catch (`T9999`,
+`France`, `Cisco`, `Wi-Fi`, `Python`) and leaves lowercase English alone.
+
+**The fix has a cost, and it is visible above.** `'blood'` is lowercase, so the
+blood-type question is no longer caught by premise and joins the quantum-handover
+class — a false premise built entirely from ordinary in-domain words, catchable
+only by the generator. Correct abstention stays 7/8 either way; what changed is
+that the system no longer refuses valid questions for a bogus reason.
 
 ### The borderline case, and why one run is not evidence
 

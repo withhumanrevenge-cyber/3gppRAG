@@ -21,12 +21,12 @@
     "retrieval_recall": 0.9412,
     "mrr": 0.8431,
     "mean_groundedness": 1.0,
-    "claims_emitted": 86,
+    "claims_emitted": 79,
     "claims_rejected": 0,
     "required_value_misses": 0,
     "forbidden_value_hits": 0,
     "citation_validity": 1.0,
-    "mean_latency_s": 3.524
+    "mean_latency_s": 3.277
   },
   "retrieval_ablation": {
     "bm25": {
@@ -41,21 +41,21 @@
       "mrr": 0.7686,
       "top1": 0.6471,
       "median_rank": 1,
-      "seconds": 0.7
+      "seconds": 0.5
     },
     "hybrid": {
       "recall_at_k": 0.8824,
       "mrr": 0.6225,
       "top1": 0.4706,
       "median_rank": 1,
-      "seconds": 0.8
+      "seconds": 0.4
     },
     "hybrid+rerank": {
       "recall_at_k": 0.9412,
       "mrr": 0.8431,
       "top1": 0.7647,
       "median_rank": 1.0,
-      "seconds": 63.5
+      "seconds": 43.7
     },
     "_n_questions": 17,
     "_k": 6
@@ -78,14 +78,14 @@
       "hit_rank": 3,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 6,
+      "claims": 3,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.9706,
       "reason": "sufficient support",
-      "elapsed_s": 4.47,
+      "elapsed_s": 5.515,
       "has_ground_truth": true
     },
     {
@@ -112,7 +112,7 @@
       "citations_valid": true,
       "confidence": 0.9991,
       "reason": "sufficient support",
-      "elapsed_s": 1.816,
+      "elapsed_s": 3.173,
       "has_ground_truth": true
     },
     {
@@ -132,14 +132,14 @@
       "hit_rank": 1,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 3,
+      "claims": 2,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.9728,
       "reason": "sufficient support",
-      "elapsed_s": 3.437,
+      "elapsed_s": 3.653,
       "has_ground_truth": true
     },
     {
@@ -159,14 +159,14 @@
       "hit_rank": 1,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 6,
+      "claims": 7,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.9435,
       "reason": "sufficient support",
-      "elapsed_s": 3.723,
+      "elapsed_s": 4.703,
       "has_ground_truth": true
     },
     {
@@ -193,7 +193,7 @@
       "citations_valid": true,
       "confidence": 0.9786,
       "reason": "sufficient support",
-      "elapsed_s": 2.146,
+      "elapsed_s": 2.351,
       "has_ground_truth": true
     },
     {
@@ -213,14 +213,14 @@
       "hit_rank": 2,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 6,
+      "claims": 4,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.9887,
       "reason": "sufficient support",
-      "elapsed_s": 4.106,
+      "elapsed_s": 3.95,
       "has_ground_truth": true
     },
     {
@@ -247,7 +247,7 @@
       "citations_valid": true,
       "confidence": 0.9997,
       "reason": "sufficient support",
-      "elapsed_s": 2.541,
+      "elapsed_s": 2.728,
       "has_ground_truth": true
     },
     {
@@ -274,7 +274,7 @@
       "citations_valid": true,
       "confidence": 0.9631,
       "reason": "sufficient support",
-      "elapsed_s": 2.832,
+      "elapsed_s": 2.897,
       "has_ground_truth": true
     },
     {
@@ -301,7 +301,7 @@
       "citations_valid": true,
       "confidence": 0.98,
       "reason": "sufficient support",
-      "elapsed_s": 2.175,
+      "elapsed_s": 2.614,
       "has_ground_truth": true
     },
     {
@@ -328,7 +328,7 @@
       "citations_valid": true,
       "confidence": 0.965,
       "reason": "sufficient support",
-      "elapsed_s": 3.102,
+      "elapsed_s": 3.307,
       "has_ground_truth": true
     },
     {
@@ -355,7 +355,7 @@
       "citations_valid": true,
       "confidence": 0.9992,
       "reason": "sufficient support",
-      "elapsed_s": 3.956,
+      "elapsed_s": 3.458,
       "has_ground_truth": true
     },
     {
@@ -375,14 +375,14 @@
       "hit_rank": 1,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 6,
+      "claims": 7,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.9058,
       "reason": "sufficient support",
-      "elapsed_s": 3.718,
+      "elapsed_s": 4.117,
       "has_ground_truth": true
     },
     {
@@ -402,14 +402,14 @@
       "hit_rank": 1,
       "recall": true,
       "groundedness": 1.0,
-      "claims": 9,
+      "claims": 6,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.8839,
       "reason": "sufficient support",
-      "elapsed_s": 4.316,
+      "elapsed_s": 3.238,
       "has_ground_truth": true
     },
     {
@@ -436,7 +436,7 @@
       "citations_valid": true,
       "confidence": 0.9825,
       "reason": "sufficient support",
-      "elapsed_s": 3.142,
+      "elapsed_s": 3.124,
       "has_ground_truth": true
     },
     {
@@ -463,7 +463,7 @@
       "citations_valid": true,
       "confidence": 0.2465,
       "reason": "only one weak passage supports this (corroboration 0.04)",
-      "elapsed_s": 3.039,
+      "elapsed_s": 3.007,
       "has_ground_truth": true
     },
     {
@@ -490,7 +490,7 @@
       "citations_valid": true,
       "confidence": 0.2197,
       "reason": "best clause scored 0.17, below the 0.20 answerability threshold",
-      "elapsed_s": 3.306,
+      "elapsed_s": 2.886,
       "has_ground_truth": true
     },
     {
@@ -517,7 +517,7 @@
       "citations_valid": true,
       "confidence": 0.936,
       "reason": "sufficient support",
-      "elapsed_s": 4.103,
+      "elapsed_s": 3.542,
       "has_ground_truth": true
     },
     {
@@ -544,7 +544,7 @@
       "citations_valid": true,
       "confidence": 0.0,
       "reason": "the question relies on 'france', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 2.843,
+      "elapsed_s": 2.559,
       "has_ground_truth": false
     },
     {
@@ -570,8 +570,8 @@
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.1292,
-      "reason": "the question relies on 'bgp', 'reflectors', 'cisco', 'ios', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 2.866,
+      "reason": "the question relies on 'bgp', 'cisco', 'ios', which does not appear anywhere in the indexed specifications",
+      "elapsed_s": 2.495,
       "has_ground_truth": false
     },
     {
@@ -598,7 +598,7 @@
       "citations_valid": true,
       "confidence": 0.0795,
       "reason": "the question relies on 'wi-fi', 'ghz', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 3.865,
+      "elapsed_s": 3.334,
       "has_ground_truth": false
     },
     {
@@ -625,7 +625,7 @@
       "citations_valid": true,
       "confidence": 0.9362,
       "reason": "TS 36.331 is not in the indexed corpus",
-      "elapsed_s": 3.266,
+      "elapsed_s": 2.821,
       "has_ground_truth": false
     },
     {
@@ -652,15 +652,15 @@
       "citations_valid": true,
       "confidence": 0.8945,
       "reason": "the question relies on 't9999', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 4.133,
+      "elapsed_s": 2.683,
       "has_ground_truth": false
     },
     {
       "id": "false-premise-procedure",
       "question": "Describe the 5GMM quantum handover procedure and its message flow.",
       "expect_answerable": false,
-      "abstained": false,
-      "correct_decision": false,
+      "abstained": true,
+      "correct_decision": true,
       "retrieved_clauses": [
         "24.501:4.2",
         "24.501:6.1.1",
@@ -671,23 +671,23 @@
       ],
       "hit_rank": 1,
       "recall": true,
-      "groundedness": 1.0,
-      "claims": 6,
+      "groundedness": 0.0,
+      "claims": 0,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.8851,
-      "reason": "sufficient support",
-      "elapsed_s": 8.835,
+      "reason": "model reported the retrieved clauses do not contain the answer",
+      "elapsed_s": 3.706,
       "has_ground_truth": false
     },
     {
       "id": "false-premise-ie",
       "question": "Which information element carries the subscriber's blood type in the REGISTRATION REQUEST message?",
       "expect_answerable": false,
-      "abstained": true,
-      "correct_decision": true,
+      "abstained": false,
+      "correct_decision": false,
       "retrieved_clauses": [
         "24.501:9.11.3.7",
         "24.501:9.11.3.72",
@@ -698,15 +698,15 @@
       ],
       "hit_rank": 1,
       "recall": true,
-      "groundedness": 0.0,
-      "claims": 0,
+      "groundedness": 1.0,
+      "claims": 6,
       "dropped": 0,
       "missing_required": [],
       "forbidden_present": [],
       "citations_valid": true,
       "confidence": 0.7502,
-      "reason": "the question relies on 'blood', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 2.113,
+      "reason": "sufficient support",
+      "elapsed_s": 2.713,
       "has_ground_truth": false
     },
     {
@@ -733,7 +733,7 @@
       "citations_valid": true,
       "confidence": 0.044,
       "reason": "the question relies on 'python', which does not appear anywhere in the indexed specifications",
-      "elapsed_s": 4.259,
+      "elapsed_s": 3.355,
       "has_ground_truth": false
     }
   ]

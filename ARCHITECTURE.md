@@ -198,24 +198,31 @@ These run first, because they catch a failure the score-based signals
 
 - **Unindexed specification.** The question names `TS 36.331`, which is not in
   the corpus. Refuse, naming it.
-- **Unknown term.** A content word in the question appears nowhere in the
-  corpus vocabulary. Refuse, naming the term.
+- **Unknown entity.** An *entity-shaped* token in the question — one carrying a
+  digit or hyphen, or capitalised — appears nowhere in the corpus vocabulary.
+  Refuse, naming it.
 
-The motivating measurement: questions about timer `T9999`, an information
-element carrying a subscriber's *blood type*, and `TS 36.331` all reranked
-between **0.844 and 0.999** — higher than several legitimate questions. This is
-not a tuning failure. Retrieval returns its best six passages for any input, and
-a question about a nonexistent timer retrieves genuine timer clauses that a
-cross-encoder correctly judges to be about timers. No threshold on that score
-can separate them.
+The motivating measurement: questions about timer `T9999` and about `TS 36.331`
+reranked between **0.967 and 0.999** — higher than several legitimate questions.
+This is not a tuning failure. Retrieval returns its best six passages for any
+input, and a question about a nonexistent timer retrieves genuine timer clauses
+that a cross-encoder correctly judges to be about timers. No threshold on that
+score can separate them. Checking the *premise* does, cheaply.
 
-Checking the *premise* does separate them, cheaply. The corpus vocabulary holds
-~50k terms drawn from 17M characters of formal telecom prose; a content word
-absent from all of it is strong evidence the specifications never discuss the
-thing being asked about. Measured false-positive rate on the golden set: zero,
-including on deliberately jargon-free paraphrases.
+**Why "entity-shaped" and not "any unknown word".** The first version flagged
+any unknown token of four or more letters, and the golden set reported a zero
+false-positive rate for it. That measurement was misleading, because the golden
+set is written in domain language. Probing with jargon-free phrasing refused
+legitimate questions for containing **"prove"** and **"disagree"** — formal
+specification prose simply has no conversational verbs, so absence from this
+corpus reports its *register* as much as the question's validity. Narrowing to
+entity-shaped tokens keeps every genuine catch and drops the false ones.
 
-The term check is suppressed below a minimum vocabulary size
+The cost is real and recorded in EVALUATION.md: a false premise made of ordinary
+lowercase words ("which IE carries the subscriber's *blood type*") is no longer
+caught here and falls to the generation layer.
+
+The check is suppressed below a minimum vocabulary size
 (`MIN_VOCAB_FOR_PREMISE`), because absence of evidence is only evidence of
 absence when the corpus is comprehensive.
 

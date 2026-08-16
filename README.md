@@ -136,11 +136,12 @@ generated OpenAPI page.
 Four independent chances to refuse, rather than one prompt hoping for the best:
 
 1. **Premise check (before retrieval scoring).** If the question names a spec
-   that is not indexed, or uses a content word that appears nowhere in the
-   corpus, refuse and say which. This exists because score thresholds cannot
-   catch a false premise: questions about timer `T9999` and about an information
-   element carrying a subscriber's *blood type* both reranked **above 0.84**,
-   since retrieval returns its best passages no matter what is asked.
+   that is not indexed, or an entity-shaped term appearing nowhere in the corpus,
+   refuse and say which. This exists because score thresholds cannot catch a
+   false premise: questions about timer `T9999` and about `TS 36.331` reranked
+   **above 0.96**, since retrieval returns its best passages no matter what is
+   asked. (The rule was narrowed after it was caught refusing valid questions for
+   containing "prove" — see [EVALUATION.md](EVALUATION.md#a-false-positive-mode-found-after-the-fact).)
 2. **Abstention gate.** Top reranked score, corroboration across hits, and
    IDF-weighted vocabulary overlap. Any one can refuse.
 3. **Constrained generation.** One claim per line, each ending with the source

@@ -88,14 +88,24 @@ class Retriever:
         that here is far more reliable than hoping a generator declines, because
         retrieval will always return its best six passages regardless.
 
-        Ordinary English carries no risk of a false positive at this vocabulary
-        size; the measured false-positive rate on the golden set is zero.
+        Only *entity-shaped* tokens are flagged: ones carrying a digit or hyphen,
+        or capitalised in the question. That covers what this check is actually
+        for -- invented identifiers (``T9999``), vendors (``Cisco``, ``Juniper``),
+        rival standards (``Wi-Fi``), and plain off-domain subjects (``France``,
+        ``Python``) -- while leaving ordinary lowercase English alone.
 
-        The term check is suppressed below ``MIN_VOCAB_FOR_PREMISE``, because
-        absence of evidence is only evidence of absence when the corpus is
-        comprehensive -- on a small index ordinary words are missing for
-        uninteresting reasons. The unindexed-specification check has no such
-        dependency and always applies.
+        An earlier version also flagged any unknown word of four or more letters.
+        That was wrong, and measurably so: the specifications are written in
+        formal prose and simply never use conversational verbs, so questions
+        phrased in plain English were refused for containing "prove" or
+        "disagree". Absence from the corpus tells you about the *corpus's
+        register* as much as about the question, and only entity-shaped tokens
+        carry the signal reliably.
+
+        The check is suppressed below ``MIN_VOCAB_FOR_PREMISE``, because absence
+        of evidence is only evidence of absence when the corpus is comprehensive.
+        The unindexed-specification check has no such dependency and always
+        applies.
         """
         indexed = {c.spec_id for c in self.index.chunks}
         missing = sorted({s for s in SPEC_REF_RE.findall(query) if s not in indexed})
@@ -109,8 +119,7 @@ class Retriever:
         for token in dict.fromkeys(tokenize(query)):
             if token in vocab:
                 continue
-            identifier = any(ch.isdigit() for ch in token) or "-" in token or token in capitalised
-            if identifier or len(token) >= 4:
+            if any(ch.isdigit() for ch in token) or "-" in token or token in capitalised:
                 unknown.append(token)
         return unknown, missing
 
