@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3GPP Standards Assistant</title>
+<style>
+  :root {
+    /* Warm paper palette. Cards sit *lighter* than the page so they read as
+       sheets on a desk; inset surfaces sit darker. Every foreground tone below
+       clears 4.5:1 on both --bg and --panel. */
+    --bg: #EFE9DC;
+    --panel: #F8F4EC;
+    --panel-2: #E9E1D1;
+    --inset: #F3EDE1;
+    --line: #D9CEB9;
+    --line-soft: #E4DBC8;
+
+    --fg: #2E2620;
+    --muted: #675A49;
+    --dim: #6E5F4B;
+
+    --accent: #8A4B1F;
+    --accent-soft: rgba(138, 75, 31, .10);
+    --ok: #3F6B2B;
+    --ok-soft: rgba(63, 107, 43, .12);
+    --warn: #7D5A0E;
+    --warn-soft: rgba(125, 90, 14, .15);
+    --bad: #9B2C21;
+    --bad-soft: rgba(155, 44, 33, .12);
+
+    --shadow: 0 1px 2px rgba(70, 55, 35, .06), 0 1px 8px rgba(70, 55, 35, .04);
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  header {
+    border-bottom: 1px solid var(--line); background: var(--panel);
+    padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 10;
+  }
+  h1 { font-size: 16px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  h1 span { color: var(--accent); }
+  #status { margin-left: auto; font: 12px/1.5 var(--mono); color: var(--muted); text-align: right; }
+  #status b { color: var(--fg); font-weight: 600; }
+  main { max-width: 1080px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  .ask { display: flex; gap: 10px; }
+  textarea {
+    flex: 1; background: var(--panel); color: var(--fg); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; font: inherit; resize: vertical; min-height: 52px;
+    box-shadow: var(--shadow);
+  }
+  textarea::placeholder { color: var(--dim); }
+  textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  button {
+    background: var(--accent); color: #FDFBF6; border: 0; border-radius: 8px;
+    padding: 0 22px; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap;
+    transition: background-color .2s ease;
+  }
+  button:hover { background: #743D18; }
+  button:disabled { opacity: .55; cursor: default; }
+  .examples { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .examples button {
+    background: var(--panel); color: var(--muted); border: 1px solid var(--line);
+    font: 12px var(--mono); padding: 6px 10px; font-weight: 400; border-radius: 6px;
+    transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+  }
+  .examples button:hover { color: var(--accent); border-color: var(--accent); background: var(--panel); }
+
+  section { margin-top: 26px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .badge {
+    font: 11px var(--mono); text-transform: uppercase; letter-spacing: .07em;
+    padding: 4px 9px; border-radius: 5px; font-weight: 600;
+  }
+  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.bad { background: var(--bad-soft); color: var(--bad); }
+  .badge.info { background: var(--accent-soft); color: var(--accent); }
+
+  .meter { display: flex; align-items: center; gap: 8px; font: 12px var(--mono); color: var(--muted); }
+  .bar { width: 72px; height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--accent); }
+
+  .claims { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .claim {
+    display: flex; gap: 11px; padding: 11px 13px; background: var(--inset);
+    border: 1px solid var(--line-soft); border-left: 3px solid var(--ok); border-radius: 7px;
+  }
+  .claim.rejected { border-left-color: var(--bad); }
+  .claim .tick { color: var(--ok); flex-shrink: 0; margin-top: 3px; }
+  .claim.rejected .tick { color: var(--bad); }
+  .claim .tick svg { display: block; }
+  .claim p { margin: 0; }
+  .cites { margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap; }
+  .cite {
+    font: 11px var(--mono); background: var(--accent-soft); color: var(--accent);
+    padding: 2px 7px; border-radius: 4px; border: 1px solid transparent; font-weight: 600;
+  }
+  button.cite { cursor: pointer; transition: border-color .2s ease; }
+  button.cite:hover { border-color: var(--accent); }
+  .why { margin-top: 6px; font: 12px var(--mono); color: var(--bad); }
+
+  .src {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+    padding: 14px 16px; margin-bottom: 10px; box-shadow: var(--shadow);
+    transition: border-color .25s ease, background-color .25s ease;
+  }
+  .src.flash { border-color: var(--accent); background: #FDF8EF; }
+  .src h4 { margin: 0 0 3px; font-size: 14px; font-weight: 600; }
+  .src .meta { font: 12px var(--mono); color: var(--accent); font-weight: 600; }
+  .src .crumb { font-size: 12px; color: var(--dim); margin-top: 5px; line-height: 1.5; }
+  .src pre {
+    margin: 11px 0 0; padding: 12px; background: var(--inset); border-radius: 6px;
+    font: 12.5px/1.65 var(--mono); white-space: pre-wrap; word-break: break-word;
+    max-height: 260px; overflow: auto; color: #3A3026; border: 1px solid var(--line-soft);
+  }
+  .src a { color: var(--dim); font: 11px var(--mono); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; }
+  .src a:hover { color: var(--accent); text-decoration: underline; }
+
+  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 0 0 12px; font-weight: 700; }
+  details summary { cursor: pointer; color: var(--muted); font: 12px var(--mono); padding: 6px 0; }
+  details summary:hover { color: var(--accent); }
+  pre.diag {
+    font: 12px/1.6 var(--mono); color: var(--muted); background: var(--inset);
+    padding: 12px; border-radius: 6px; overflow: auto; border: 1px solid var(--line-soft);
+  }
+  .empty { color: var(--dim); font-size: 14px; }
+  .spinner {
+    display: inline-block; width: 13px; height: 13px; vertical-align: -2px;
+    border: 2px solid var(--line); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+  @media (max-width: 640px) {
+    header { padding: 12px 16px; }
+    #status { margin-left: 0; text-align: left; width: 100%; }
+    main { padding: 20px 16px 60px; }
+    .ask { flex-direction: column; }
+    button { padding: 12px 22px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>3GPP <span>Standards Assistant</span></h1>
+  <div id="status">connecting…</div>
+</header>
+
+<main>
+  <div class="ask">
+    <label for="q" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label>
+    <textarea id="q" placeholder="Ask about 5G NAS, RRC, security, or system architecture…" rows="2"></textarea>
+    <button id="go">Ask</button>
+  </div>
+  <div class="examples" id="examples"></div>
+
+  <section id="out"></section>
+</main>
+
+<script>
+const EXAMPLES = [
+  "Which timer does the UE start when it sends a REGISTRATION REQUEST?",
+  "What is the SUCI and how is it computed?",
+  "When does the AMF initiate the identification procedure?",
+  "What triggers an RRC connection re-establishment in NR?",
+  "What is the capital of France?"
+];
+
+const ICON_OK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+const ICON_BAD = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+const ICON_LINK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
+
+const $ = s => document.querySelector(s);
+const esc = s => (s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const ex = $("#examples");
+EXAMPLES.forEach(t => {
+  const b = document.createElement("button");
+  b.textContent = t.length > 52 ? t.slice(0, 50) + "…" : t;
+  b.title = t;
+  b.onclick = () => { $("#q").value = t; ask(); };
+  ex.appendChild(b);
+});
+
+fetch("/api/health").then(r => r.json()).then(h => {
+  const specs = (h.specs || []).map(s => s.spec_id).join(" · ");
+  $("#status").innerHTML =
+    `<b>${h.chunks.toLocaleString()}</b> clauses indexed · <b>${h.acronyms}</b> acronyms<br>` +
+    `${esc(h.embeddings)} · ${esc(h.reranker)} · llm ${esc(h.llm)}<br>` +
+    `<span style="color:var(--dim)">${esc(specs)}</span>`;
+}).catch(() => $("#status").textContent = "index not built — run: python -m telcorag build");
+
+$("#go").onclick = ask;
+$("#q").addEventListener("keydown", e => {
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey || !e.shiftKey)) { e.preventDefault(); ask(); }
+});
+
+async function ask() {
+  const question = $("#q").value.trim();
+  if (!question) return;
+  $("#go").disabled = true;
+  $("#out").innerHTML = `<div class="card"><span class="spinner"></span> <span style="color:var(--muted)">retrieving and verifying…</span></div>`;
+  try {
+    const r = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    render(await r.json());
+  } catch (e) {
+    $("#out").innerHTML = `<div class="card"><span class="badge bad">error</span> <span class="empty">${esc(e.message)}</span></div>`;
+  } finally {
+    $("#go").disabled = false;
+  }
+}
+
+function render(d) {
+  const kept = d.claims.filter(c => c.supported);
+  const rejected = d.claims.filter(c => !c.supported);
+
+  let html = `<div class="card"><div class="row">`;
+  html += d.abstained
+    ? `<span class="badge warn">abstained</span>`
+    : `<span class="badge ok">answered</span><span class="badge info">${esc(d.mode)}</span>`;
+  html += meter("confidence", d.confidence);
+  if (!d.abstained) html += meter("grounded", d.groundedness);
+  html += `</div>`;
+
+  if (d.abstained) {
+    html += `<p style="margin:14px 0 0">${esc(d.answer)}</p>
+             <p class="empty" style="margin:8px 0 0"><b>Why:</b> ${esc(d.reason)}</p>`;
+  } else {
+    html += `<div class="claims">`;
+    kept.forEach(c => {
+      html += `<div class="claim"><span class="tick" title="grounded in cited clause">${ICON_OK}</span><div><p>${esc(c.text)}</p>
+        <div class="cites">${c.citations.map(n => `<button class="cite" data-s="${n}">S${n}</button>`).join("")}</div></div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (rejected.length) {
+    html += `<details style="margin-top:14px"><summary>${rejected.length} claim(s) rejected by the grounding verifier</summary><div class="claims">`;
+    rejected.forEach(c => {
+      html += `<div class="claim rejected"><span class="tick" title="failed verification">${ICON_BAD}</span><div><p>${esc(c.text)}</p>
+        <div class="why">${esc(c.reason)}</div></div></div>`;
+    });
+    html += `</div></details>`;
+  }
+  html += `</div>`;
+
+  if (d.sources?.length) {
+    html += `<section><h3>Sources</h3>`;
+    d.sources.forEach(s => {
+      html += `<div class="src" id="src-${s.n}">
+        <div class="row" style="gap:9px">
+          <span class="cite">S${s.n}</span>
+          <span class="meta">${esc(s.citation)}</span>
+          <span style="margin-left:auto;font:11px var(--mono);color:var(--dim)">score ${s.score.toFixed(2)}</span>
+        </div>
+        <h4 style="margin-top:7px">${esc(s.clause)} ${esc(s.heading)}</h4>
+        <div class="crumb">${esc(s.breadcrumb)}</div>
+        <pre>${esc(s.text)}</pre>
+        ${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${ICON_LINK} original archive on 3gpp.org</a>` : ""}
+      </div>`;
+    });
+    html += `</section>`;
+  }
+
+  html += `<section><details><summary>diagnostics</summary>
+    <pre class="diag">${esc(JSON.stringify(d.diagnostics, null, 2))}</pre></details></section>`;
+
+  $("#out").innerHTML = html;
+  document.querySelectorAll(".cite[data-s]").forEach(el => {
+    el.onclick = () => {
+      const t = document.getElementById("src-" + el.dataset.s);
+      if (!t) return;
+      t.scrollIntoView({ behavior: "smooth", block: "center" });
+      t.classList.add("flash");
+      setTimeout(() => t.classList.remove("flash"), 1400);
+    };
+  });
+}
+
+function meter(label, v) {
+  const pct = Math.round((v || 0) * 100);
+  return `<span class="meter">${label}
+    <span class="bar" role="img" aria-label="${label} ${pct} percent"><i style="width:${pct}%"></i></span>${pct}%</span>`;
+}
+</script>
+</body>
+</html>

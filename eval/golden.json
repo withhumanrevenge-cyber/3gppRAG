@@ -1,0 +1,182 @@
+{
+  "_about": "Ground truth derived from the indexed corpus, not from memory. Every expect_clauses entry was confirmed to exist and every must_include token was confirmed present in that clause before being added here. Roughly a third of the set is adversarial: questions the system is expected to refuse.",
+  "questions": [
+    {
+      "id": "nas-registration-timer",
+      "question": "Which timer does the UE start when it sends a REGISTRATION REQUEST message?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.5.1.2.2"],
+      "must_include": ["T3510"]
+    },
+    {
+      "id": "nas-5gmm-states",
+      "question": "What are the 5GMM sublayer states in the UE?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.1.3.2.1"]
+    },
+    {
+      "id": "nas-identification",
+      "question": "When does the network initiate the identification procedure and which message does it send?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.4.3.2"],
+      "must_include": ["IDENTITY REQUEST"]
+    },
+    {
+      "id": "nas-pdu-session-establishment",
+      "question": "How does the UE initiate the PDU session establishment procedure?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["6.4.1.2"]
+    },
+    {
+      "id": "nas-security-mode-command",
+      "question": "What does the UE do on receipt of a SECURITY MODE COMMAND message?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.4.2"]
+    },
+    {
+      "id": "nas-periodic-registration-timer",
+      "question": "What is timer T3512 used for?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.3.7"],
+      "must_include": ["T3512"]
+    },
+    {
+      "id": "nas-authentication-initiation",
+      "question": "How does the network initiate 5G AKA based primary authentication?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.4.1.3"],
+      "must_include": ["AUTHENTICATION REQUEST"]
+    },
+    {
+      "id": "sec-key-hierarchy",
+      "question": "Which keys make up the 5G key hierarchy?",
+      "expect_answerable": true,
+      "expect_specs": ["33.501"],
+      "expect_clauses": ["6.2.1"]
+    },
+    {
+      "id": "sec-suci",
+      "question": "What is the SUCI and how is the subscription permanent identifier concealed?",
+      "expect_answerable": true,
+      "expect_specs": ["33.501", "23.501"],
+      "expect_clauses": ["6.12.2", "5.9.2a"]
+    },
+    {
+      "id": "arch-qos-flow",
+      "question": "What is a QoS flow and how is it identified in the 5G System?",
+      "expect_answerable": true,
+      "expect_specs": ["23.501"],
+      "expect_clauses": ["5.7.1.1"]
+    },
+    {
+      "id": "arch-network-slice-selection",
+      "question": "How is a network slice selected using the NSSAI during registration?",
+      "expect_answerable": true,
+      "expect_specs": ["23.501"],
+      "expect_clauses": ["5.15.5"]
+    },
+    {
+      "id": "ran-random-access",
+      "question": "How is the random access procedure initialised in NR MAC?",
+      "expect_answerable": true,
+      "expect_specs": ["38.321"],
+      "expect_clauses": ["5.1.1"]
+    },
+    {
+      "id": "ran-rrc-states",
+      "question": "Which RRC states are defined for NR and how does the UE move between them?",
+      "expect_answerable": true,
+      "expect_specs": ["38.331", "38.300"],
+      "expect_clauses": ["4.2.1", "7.2"]
+    },
+    {
+      "id": "ran-rrc-reestablishment",
+      "question": "When does the UE initiate the RRC connection re-establishment procedure?",
+      "expect_answerable": true,
+      "expect_specs": ["38.331", "38.300"],
+      "expect_clauses": ["5.3.7", "9.2.3.3"]
+    },
+    {
+      "id": "paraphrase-periodic-update",
+      "question": "How does the device let the network know it is still reachable at regular intervals?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.3.7", "5.5.1.3"],
+      "_note": "Deliberately jargon-free. Tests whether dense retrieval closes the gap that BM25 alone cannot."
+    },
+    {
+      "id": "paraphrase-identity-privacy",
+      "question": "What stops a subscriber's permanent identity from being sent in the clear over the radio interface?",
+      "expect_answerable": true,
+      "expect_specs": ["33.501", "23.501"],
+      "expect_clauses": ["6.12.2", "5.9.2a", "6.12.1"],
+      "_note": "Paraphrase of SUCI concealment with none of the acronyms present."
+    },
+    {
+      "id": "structural-clause-lookup",
+      "question": "What does TS 24.501 clause 5.4.3.2 specify?",
+      "expect_answerable": true,
+      "expect_specs": ["24.501"],
+      "expect_clauses": ["5.4.3.2"],
+      "_note": "An address, not a topic. Tests direct clause pinning."
+    },
+
+    {
+      "id": "oos-geography",
+      "question": "What is the capital of France and what is its population?",
+      "expect_answerable": false,
+      "_note": "Pure out-of-domain."
+    },
+    {
+      "id": "oos-vendor-networking",
+      "question": "How do I configure BGP route reflectors on a Cisco IOS router?",
+      "expect_answerable": false,
+      "_note": "Networking-flavoured but not 3GPP. Domain adjacency must not be mistaken for coverage."
+    },
+    {
+      "id": "oos-wifi-standard",
+      "question": "What is the maximum EIRP permitted for a Wi-Fi 6E access point in the 6 GHz band?",
+      "expect_answerable": false,
+      "_note": "Wireless telecom from a different standards body (IEEE)."
+    },
+    {
+      "id": "oos-unindexed-spec",
+      "question": "What does TS 36.331 specify about the LTE RRC connection reconfiguration procedure?",
+      "expect_answerable": false,
+      "must_not_include": ["36.331"],
+      "_note": "Real 3GPP spec that is not indexed. Retrieves NR RRC clauses at ~0.999 because the procedures are near-identical, so only the unindexed-spec check can catch it."
+    },
+    {
+      "id": "false-premise-timer",
+      "question": "What is the value of timer T9999 in the 5GS NAS protocol and when does it start?",
+      "expect_answerable": false,
+      "must_not_include": ["T9999"],
+      "_note": "False premise shaped exactly like a real question, and it retrieves genuine timer clauses."
+    },
+    {
+      "id": "false-premise-procedure",
+      "question": "Describe the 5GMM quantum handover procedure and its message flow.",
+      "expect_answerable": false,
+      "_note": "Hardest case in the set: no term is out of vocabulary, since 'quantum' does appear in TS 33.501. The premise check cannot catch this one, so refusal must come from generation or verification."
+    },
+    {
+      "id": "false-premise-ie",
+      "question": "Which information element carries the subscriber's blood type in the REGISTRATION REQUEST message?",
+      "expect_answerable": false,
+      "_note": "Absurd premise embedded in real domain vocabulary that retrieves strongly."
+    },
+    {
+      "id": "oos-programming",
+      "question": "Write a Python function that parses a PCAP file and extracts TCP streams.",
+      "expect_answerable": false,
+      "_note": "Instruction-shaped rather than question-shaped. Tests that the system does not drift into general assistant behaviour."
+    }
+  ]
+}

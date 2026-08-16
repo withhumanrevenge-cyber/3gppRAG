@@ -1,0 +1,13 @@
+# Core pipeline — parsing, BM25, fusion, verification, API.
+numpy>=1.26
+requests>=2.31
+fastapi>=0.110
+uvicorn>=0.27
+pydantic>=2.6
+
+# Neural retrieval: bi-encoder embeddings + cross-encoder reranking.
+# Omit these and the system falls back to LSA embeddings and a lexical
+# reranker, which needs no downloads. See ARCHITECTURE.md for the trade-off.
+sentence-transformers>=3.0
+torch>=2.2
+scikit-learn>=1.4

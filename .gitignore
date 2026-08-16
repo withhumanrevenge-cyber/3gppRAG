@@ -1,0 +1,23 @@
+.env
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Fetched specifications and derived index — rebuild with:
+#   telcorag fetch && telcorag build
+data/raw/
+data/corpus/
+data/index/
+data/manifest.json
+
+# eval/report.json is intentionally tracked — it is the evidence behind EVALUATION.md
+
+# build artifact
+3gpp-rag-submission.zip
