@@ -21,3 +21,7 @@ data/manifest.json
 
 # build artifact
 3gpp-rag-submission.zip
+
+# submission archives
+3gpp-rag.tar
+3gpp-rag.tar.gz
